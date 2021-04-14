@@ -11,6 +11,8 @@ History:
 
 To be chieve:
 
+Note:
+How to find certain context in python
 *******************************************************************
 '''
 
