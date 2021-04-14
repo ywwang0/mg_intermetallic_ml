@@ -12,7 +12,7 @@ History:
 To be chieve:
 
 Note:
-How to find certain context in python
+How to find certain context in python (get_fermi function)
 *******************************************************************
 '''
 
