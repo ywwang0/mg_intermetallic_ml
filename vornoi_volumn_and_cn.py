@@ -8,7 +8,7 @@ Input: pymatgen structure class
 Output: csv file containing all necessary dictionary(c dictionary)
 History: 
 04/18/2021: Created
-04/19/2021: Add 求配位数中的元素种类
+
 To be chieve:
 None
 *******************************************************************
@@ -28,8 +28,8 @@ weight (string) – available in get_voronoi_polyhedra)
 extra_nn_info (bool) –
 compute_adj_neighbors (bool) – adjacent. Turn off for faster performance
 '''
-cn = VoronoiNN(tol=0, targets=None, cutoff=13.0, allow_pathological=True, 
-               weight='solid_angle', extra_nn_info=True, compute_adj_neighbors=True)
+cn = VoronoiNN(tol=0.5, targets=None, cutoff=13.0, allow_pathological=True, 
+               weight='solid_angle', extra_nn_info=True, compute_adj_neighbors=False)
 
 # 更改成当前文件下需要分析的文件
 struct = Structure.from_file("mgf2.vasp")
@@ -48,20 +48,27 @@ print(f"结构中第一个原子的配位数为：{len(cn.get_all_nn_info(struct
 atom_index = []
 ele = []
 nn = []
-pos = []
+x = []
+y = []
+z = []
 vol = []
 nn_ele = []
 
 # 保存原子序数，元素符号，元素坐标和配位数
 for i in range(len(struct)):
-    print(i,str(struct[i]).split()[-1],str(struct[i])[:-3],len(cn.get_all_nn_info(struct)[i]))
+    print(i,str(struct[i]).split()[-1],str(struct[i])[:-3])
     atom_index.append(i)
     ele.append(str(struct[i]).split()[-1])
     if len(str(struct[i]).split()[-1]) == 2:
-        pos.append(str(struct[i])[:-3][1:-1])
+        position_info = str(struct[i])[:-3][1:-1]
+        x.append(position_info.split()[0])
+        y.append(position_info.split()[1])
+        z.append(position_info.split()[2])
     else:
-        pos.append(str(struct[i])[:-3][1:])
-    nn.append(len(cn.get_all_nn_info(struct)[i]))
+        position_info = str(struct[i])[:-3][1:]
+        x.append(position_info.split()[0])
+        y.append(position_info.split()[1])
+        z.append(position_info.split()[2])
 
 # 求和计算vornoi体积
 for i in range(len(struct)):
@@ -85,11 +92,11 @@ for i in range(len(struct)):
 c = {
     "atom_index":atom_index,
     'element':ele,
-    'nn':nn,
-    'vor_volumn':vol,
-    'cn_ele':nn_ele,
-    'position':pos
+    'x':x,
+    'y':y,
+    'z':z,
+    'vor_volumn':vol
 }
 
 df = pd.DataFrame(c)
-df.to_csv('test.csv',index=None)
+df.to_csv('222牛逼.csv',index=None)
