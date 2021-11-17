@@ -6,7 +6,7 @@ E-mail: yaowei.wang@sjtu.edu.cn
 Function: calcualte surface energy for a intermetallic
 Input: mp-id in Material Project, For example, mp-1265 for MgO
 Output: Surface energies and coresponding directories
-History: 
+History:
 01/01/2021: Created
 04/07/2021: Change from ratio = int(dicts['Mg']/dicts[x]) to ratio = dicts['Mg']/dicts[x]
 
@@ -20,7 +20,7 @@ from matminer.data_retrieval.retrieve_MP import MPDataRetrieval
 
 mp_id = input('Please input mp-id of the intermetallic (for example: mp-1265):')
 mpdr = MPDataRetrieval(api_key='Bw7HdCARiXvzEWJK')
-df = mpdr.get_dataframe(criteria={"material_id": mp_id}, 
+df = mpdr.get_dataframe(criteria={"material_id": mp_id},
                         properties=['energy_per_atom', 'formation_energy_per_atom',
                                    'unit_cell_formula'])
 
@@ -38,6 +38,7 @@ eles = {'La':-4.9266, 'Ce':-5.9343, 'Pr':-4.7837, 'Y':-6.4674,
         'Lu':-4.5259, 'Dy':-4.5999, 'Ba':-1.9246, 'Nd':-4.7651,
         'Pr':-4.7837, 'F':-1.882, 'Sc':-6.3325,'H':-3.23975,
         'He': -0.0255,'Gd':-14.0834, 'Ca':-1.9995,'Si':-5.4234,
+        'Ge':-4.6175,
 #         Non-metal element
         'O':-4.927495, 'F':-1.9115,
        }
@@ -61,7 +62,7 @@ def get_surface_area():
         a = poscar[2].split()[0]
         b = poscar[3].split()[1]
         return eval(a)*eval(b)
-    
+
 def get_slab_energy():
     with open('OSZICAR','r') as f:
         oszicar = f.read().splitlines()
@@ -84,9 +85,9 @@ def calc_surf_energy():
             slab_nx -= 1
             count += 1
         surf = (slab_energy - slab_nMg/dicts['Mg']*en_formula - count*mu_x)
-    
+
     return (surf/2/area)*16000
-    
+
 # Main part
 path = os.getcwd()
 min_dir,min_energy = 'No such a dir',1000
@@ -96,8 +97,9 @@ for d in os.listdir(path):
     if os.path.isdir(full_path) and d[0]!='.':
         os.chdir(full_path)
         surf_energy = round(calc_surf_energy(),3)
-        if surf_energy < min_energy: min_dir,min_energy = d, surf_energy
-        print(f"{d}  {surf_energy}mj/m2")
+        if surf_energy < min_energy:
+            min_dir,min_energy = d, surf_energy
+        print(f"{d} {surf_energy}mj/m2")
 print('-------------MINIMUM SURFACE ENERGY AND ITS CORRESPONDING SURFACE------------------')
 print(min_dir,min_energy)
 print('-------------SURFACE ENERGY CALCULATING END------------------')
