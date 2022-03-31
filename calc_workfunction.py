@@ -28,7 +28,7 @@ def e_vaccum():
     z_length = eval(content[4].split()[-1])
     slab_zlp = slab_locpot.get_average_along_axis(2)
     vac_range = int(3/z_length*len(slab_zlp))
-    return round(np.average(slab_zlp[:vac_range]),4)
+    return vac_range, round(np.average(slab_zlp[:vac_range]),4)
 
 def get_fermi():
     with open ('OUTCAR','r') as f:
@@ -46,6 +46,10 @@ def get_fermi():
 def plot_zpotential():
     slab_locpot = Locpot.from_file("LOCPOT")
     slab_zlp = slab_locpot.get_average_along_axis(2)
+    vac_range, tmp = e_vaccum()
+    ymin,ymax = 1.1*min(slab_zlp),1.1*max(slab_zlp)
+    plt.vlines(x = 0, ymin = ymin, ymax = ymax,c='r',ls='dashed')
+    plt.vlines(x = vac_range, ymin = ymin, ymax = ymax,c='r',ls='dashed')
     plt.plot(slab_zlp)
     plt.savefig('zpotential.pdf',dpi=900)
 
