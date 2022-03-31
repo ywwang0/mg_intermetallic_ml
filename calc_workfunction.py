@@ -1,3 +1,5 @@
+
+   
 '''
 ******************************************************************
 coding: utf-8
@@ -8,9 +10,7 @@ Input: VASP output
 Output: vaccum energy, fermi energy, work function
 History: 
 04/14/2021: Created
-
 To be chieve:
-
 Note:
 How to find certain context in python (get_fermi function)
 *******************************************************************
@@ -48,13 +48,13 @@ def plot_zpotential():
     slab_zlp = slab_locpot.get_average_along_axis(2)
     vac_range, tmp = e_vaccum()
     ymin,ymax = 1.1*min(slab_zlp),1.1*max(slab_zlp)
-    plt.vlines(x = 0, ymin = ymin, ymax = ymax,c='r',ls='dashed')
-    plt.vlines(x = vac_range, ymin = ymin, ymax = ymax,c='r',ls='dashed')
+    plt.vlines(x = 0, ymin = ymin, ymax = ymax,color='r',ls='dashed')
+    plt.vlines(x = vac_range, ymin = ymin, ymax = ymax,color='r',ls='dashed')
     plt.plot(slab_zlp)
     plt.savefig('zpotential.pdf',dpi=900)
 
 # Main Function
 plot_zpotential()
-vaccum_energy = e_vaccum()
+vaccum_energy = e_vaccum()[1]
 fermi_energy = get_fermi()
 print(vaccum_energy,fermi_energy,vaccum_energy-fermi_energy)
