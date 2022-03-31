@@ -28,6 +28,7 @@ def e_vaccum():
     z_length = eval(content[4].split()[-1])
     slab_zlp = slab_locpot.get_average_along_axis(2)
     vac_range = int(3/z_length*len(slab_zlp))
+   
     return vac_range, round(np.average(slab_zlp[:vac_range]),4)
 
 def get_fermi():
