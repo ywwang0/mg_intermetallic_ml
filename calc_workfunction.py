@@ -28,7 +28,8 @@ def e_vaccum():
     z_length = eval(content[4].split()[-1])
     slab_zlp = slab_locpot.get_average_along_axis(2)
     vac_range = int(3/z_length*len(slab_zlp))
-   
+    if max(slab_zlp[:vac_range])-min(slab_zlp[:vac_range]) > 0.05: # 可能需要调整，判断真空区域是否平整
+        print("Notion!!!, this directory may be wrong!!!")
     return vac_range, round(np.average(slab_zlp[:vac_range]),4)
 
 def get_fermi():
